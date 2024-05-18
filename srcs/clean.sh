@@ -14,5 +14,5 @@ then
     docker system df
 fi
 
-docker build -t nginx_t .
-docker run -itd -p 443:443 nginx_t
+# docker build -t nginx_t .
+# docker run -itd -p 443:443 nginx_t
