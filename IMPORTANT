@@ -1,1 +1,5 @@
 check the files if they are correct or not
+
+docker volume create  --driver local     --name wordpress_volume     --opt type=none     --opt device=/home/mel-moun/data/v_wordpress    --opt o=bind
+
+docker volume create     --driver local     --name mariadb_volume     --opt type=none     --opt device=/home/mel-moun/data/v_mariadb    --opt o=bind

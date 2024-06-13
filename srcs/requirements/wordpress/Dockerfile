@@ -3,7 +3,7 @@ FROM debian:bookworm
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get -y install wget \
-    php7.3 \
+    php8.2 \
     php-fpm \
 	php-mysql \
     mariadb-client
@@ -28,6 +28,7 @@ COPY ./tools/script.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/script.sh
 
-ENTRYPOINT ["/usr/local/bin/script.sh"]
-
 CMD ["/usr/sbin/php-fpm8.2", "-F"]
+
+ENTRYPOINT ["sh", "/usr/local/bin/script.sh"]
+

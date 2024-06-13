@@ -9,7 +9,9 @@ WP_CONFIG_PATH="/var/www/wordpress/wp-config.php"
 if [ -f "$WP_CONFIG_PATH" ]; then
     echo "The file wp-config.php already exists."
 else
+sleep 5
     wp config create --allow-root --dbname=$DB_NAME  --dbuser=$DB_USER  --dbpass=$DB_PASSWORD --dbhost=$DB_HOST  --path='/var/www/wordpress/'
+
 fi
 
 exec "$@"
