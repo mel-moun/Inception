@@ -1,0 +1,123 @@
+# services:
+#   mariadb:
+#     container_name: mariadb
+#     image: mariadb
+#     volumes:
+#       - mariadb_volume:/var/lib/mysql
+#     networks:
+#       - network_f
+#     build:
+#       context: requirements/mariadb
+#     restart: always
+#     environment:
+#         maria_USER: Meriem
+#         maria_PASSWORD: INCEPTION
+#         maria_ROOT_PASSWORD: Bullshit
+#         MARIADB_DATABASE: mery
+  
+#   wordpress:
+#     container_name: wordpress
+#     image: wordpress
+#     depends_on:
+#       - mariadb
+#     volumes:
+#       - wordpress_volume:/var/www/wordpress
+#     networks:
+#       - network_f
+#     build:
+#       context: requirements/wordpress
+#     restart: always
+#     environment:
+#       maria_USER: Meriem
+#       maria_PASSWORD: INCEPTION
+#       maria_ROOT_PASSWORD: Bullshit
+#       MARIADB_DATABASE: mery
+
+#   nginx:
+#     container_name: nginx
+#     image: nginx
+#     depends_on:
+#       - wordpress
+#     volumes:
+#       - wordpress_volume:/var/www/wordpress
+#     networks:
+#       - network_f
+#     build:
+#       context: requirements/nginx
+#     restart: always
+#     ports:
+#       - "443:443"
+
+# volumes:
+#   mariadb_volume:
+#     name: mariadb_volume
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /home/mel-moun/data/v_mariadb
+
+#   wordpress_volume:
+#     name: wordpress_volume
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /home/mel-moun/data/v_wordpress
+  
+# networks:
+#   network_f:
+#     driver: bridge
+  
+
+services:
+  mariadb:
+    container_name: mariadb
+    build:
+      context: requirements/mariadb
+    env_file:
+      - .env
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - network_f
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: requirements/wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    networks:
+      - network_f
+    depends_on:
+      - mariadb
+    restart: always
+
+  nginx:
+    container_name: nginx
+    build:
+      context: requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    networks:
+      - network_f
+    depends_on:
+      - wordpress
+    restart: always
+
+volumes:
+  mariadb_volume:
+    driver: local
+  wordpress_volume:
+    driver: local
+
+networks:
+  network_f:
+    driver: bridge
+

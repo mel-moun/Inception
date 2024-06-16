@@ -1,20 +1,40 @@
+# FROM debian:bookworm
+
+# WORKDIR /etc/nginx/ssl
+
+# RUN apt-get -y update \
+#     && apt-get -y upgrade \
+#     && apt-get install -y nginx \
+#     openssl
+
+# RUN openssl genrsa -out /etc/nginx/ssl/mery.key 2048 \
+#     && openssl req -x509 -key /etc/nginx/ssl/mery.key -out /etc/nginx/ssl/mery.crt -days 356 -subj "/C=MA/L=Tetouan/O=1337MED/UID=mery"
+
+# COPY conf/nginx.conf /etc/nginx/conf.d
+
+# RUN mkdir -p /var/run/nginx
+
+# RUN rm -rf /etc/nginx/sites-enabled/*
+
+# EXPOSE 443
+
+# CMD ["nginx", "-g", "daemon off;"]
+
+#
 FROM debian:bookworm
 
 WORKDIR /etc/nginx/ssl
 
 RUN apt-get -y update \
     && apt-get -y upgrade \
-    && apt-get install -y nginx \
-    openssl
+    && apt-get install -y nginx openssl
 
 RUN openssl genrsa -out /etc/nginx/ssl/mery.key 2048 \
     && openssl req -x509 -key /etc/nginx/ssl/mery.key -out /etc/nginx/ssl/mery.crt -days 356 -subj "/C=MA/L=Tetouan/O=1337MED/UID=mery"
 
-COPY conf/nginx.conf /etc/nginx/conf.d
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /var/run/nginx
-
-RUN rm -rf /etc/nginx/sites-enabled/*
 
 EXPOSE 443
 
