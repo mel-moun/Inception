@@ -29,6 +29,6 @@ else
 	--admin_password="$DB_PASSWORD" --admin_email="meriemelmountasser3@gmail.com" --skip-email --allow-root
 	wp user create $ADMIN_USER hia@gmail.com --role=author --user_pass=$ADMIN_PWD --allow-root
 fi
+    chown -R www-data:www-data /var/www/html
 
 exec "$@"
-
