@@ -3,6 +3,7 @@ services:
     container_name: mariadb
     build:
       context: requirements/mariadb
+    image: mariadb:v2
     env_file:
       - .env
     volumes:
@@ -15,6 +16,7 @@ services:
     container_name: wordpress
     build:
       context: requirements/wordpress
+    image: wordpress:v3
     env_file:
       - .env
     volumes:
@@ -27,6 +29,7 @@ services:
 
   nginx:
     container_name: nginx
+    image: nginx:v4
     build:
       context: requirements/nginx
     ports:
@@ -48,4 +51,3 @@ volumes:
 networks:
   network_f:
     driver: bridge
-
