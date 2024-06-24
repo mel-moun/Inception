@@ -1,25 +1,39 @@
 COMPOSE_FILE := srcs/docker-compose.yml
+SECRETS_DIR := secrets
 
-all:
-	docker compose -f $(COMPOSE_FILE) up -d
+all: $(SECRETS_DIR) generate_passwords
+	@docker compose -f $(COMPOSE_FILE) up -d
 
-build:
-	docker compose -f $(COMPOSE_FILE) build
+build: $(SECRETS_DIR) generate_passwords
+	@docker compose -f $(COMPOSE_FILE) build
 
 stop:
-	docker compose -f $(COMPOSE_FILE) down
-
-re: stop all
+	@docker compose -f $(COMPOSE_FILE) stop
 
 clean:
-	docker compose -f $(COMPOSE_FILE) down
-	docker rm -f $(docker ps -aq)
+	@docker compose -f $(COMPOSE_FILE) down
 
-fclean:
-	docker compose -f $(COMPOSE_FILE) down
-	docker system prune -a -f 
-	docker volume prune -f
-	rm -rf /home/mel-moun/data/v_mariadb/*
-	rm -rf /home/mel-moun/data/v_wordpress/*
-	
-.PHONY: all build stop re clean fclean
+fclean: clean
+	@rm -rf $(SECRETS_DIR)
+	@docker system prune -a -f 
+	@docker volume prune -f
+	@sudo rm -rf /home/mel-moun/data/mariadb_volume/*
+	@sudo rm -rf /home/mel-moun/data/wordpress_volume/*
+
+re: fclean all
+
+generate_passwords: $(SECRETS_DIR)/db_password.txt $(SECRETS_DIR)/admin_password.txt $(SECRETS_DIR)/user_password.txt
+
+$(SECRETS_DIR):
+	@mkdir -p $(SECRETS_DIR)
+
+$(SECRETS_DIR)/db_password.txt:
+	@openssl rand -base64 16 > $(SECRETS_DIR)/db_password.txt
+
+$(SECRETS_DIR)/admin_password.txt:
+	@openssl rand -base64 16 > $(SECRETS_DIR)/admin_password.txt
+
+$(SECRETS_DIR)/user_password.txt:
+	@openssl rand -base64 16 > $(SECRETS_DIR)/user_password.txt
+
+.PHONY: all build stop re clean fclean generate_passwords

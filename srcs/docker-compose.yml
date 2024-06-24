@@ -1,9 +1,9 @@
 services:
   mariadb:
     container_name: mariadb
+    image: mariadb:mel-moun
     build:
       context: requirements/mariadb
-    image: mariadb:v2
     env_file:
       - .env
     volumes:
@@ -14,9 +14,9 @@ services:
 
   wordpress:
     container_name: wordpress
+    image: wordpress:mel-moun
     build:
       context: requirements/wordpress
-    image: wordpress:v3
     env_file:
       - .env
     volumes:
@@ -29,7 +29,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:v4
+    image: nginx:mel-moun
     build:
       context: requirements/nginx
     ports:
@@ -42,11 +42,51 @@ services:
       - wordpress
     restart: always
 
+  adminer:
+    container_name: adminer
+    image: adminer:mel-moun
+    depends_on:
+      - mariadb
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - network_f
+    build:
+      context: requirements/bonus/adminer
+    restart: always
+    env_file: .env
+    ports:
+      - "8080:8080"
+
+  simple_page:
+    container_name: resume
+    image: resume:mel-moun
+    networks:
+      - network_f
+    build:
+      context: requirements/bonus/simple_page/
+    restart: always
+    env_file: .env
+    ports:
+      - "8081:80"
+    # change it later to 80:80
+
 volumes:
   mariadb_volume:
+    name: mariadb_volume
     driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mel-moun/data/mariadb_volume
+
   wordpress_volume:
+    name: wordpress_volume
     driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mel-moun/data/wordpress_volume
 
 networks:
   network_f:
