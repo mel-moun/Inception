@@ -28,12 +28,12 @@ $(SECRETS_DIR):
 	@mkdir -p $(SECRETS_DIR)
 
 $(SECRETS_DIR)/db_password.txt:
-	@openssl rand -base64 16 > $(SECRETS_DIR)/db_password.txt
+	@openssl rand -base64 20 > $(SECRETS_DIR)/db_password.txt
 
 $(SECRETS_DIR)/admin_password.txt:
-	@openssl rand -base64 16 > $(SECRETS_DIR)/admin_password.txt
+	@openssl rand -base64 20 > $(SECRETS_DIR)/admin_password.txt
 
 $(SECRETS_DIR)/user_password.txt:
-	@openssl rand -base64 16 > $(SECRETS_DIR)/user_password.txt
+	@openssl rand -base64 20 > $(SECRETS_DIR)/user_password.txt
 
 .PHONY: all build stop re clean fclean generate_passwords

@@ -107,4 +107,3 @@ secrets:
     file: ../secrets/admin_password.txt
   user_password:
     file: ../secrets/user_password.txt
-  
