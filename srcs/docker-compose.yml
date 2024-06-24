@@ -11,6 +11,10 @@ services:
     networks:
       - network_f
     restart: always
+    secrets:
+      - db_password
+      - admin_password
+      - user_password
 
   wordpress:
     container_name: wordpress
@@ -26,6 +30,10 @@ services:
     depends_on:
       - mariadb
     restart: always
+    secrets:
+      - db_password
+      - admin_password
+      - user_password
 
   nginx:
     container_name: nginx
@@ -91,3 +99,12 @@ volumes:
 networks:
   network_f:
     driver: bridge
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  admin_password:
+    file: ../secrets/admin_password.txt
+  user_password:
+    file: ../secrets/user_password.txt
+  

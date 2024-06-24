@@ -1,5 +1,8 @@
 #!/bin/bash
 
+maria_PASSWORD=$(cat "$USER_PATH")
+ADMIN_PWD=$(cat "$ADMIN_PATH")
+
 if [ -f "$WP_CONFIG_PATH" ]; then
     echo "The file wp-config.php already exists."
 else

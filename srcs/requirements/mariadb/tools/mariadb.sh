@@ -1,5 +1,8 @@
 #!/bin/sh
 
+maria_ROOT_PASSWORD=$(cat "$DB_PATH")
+maria_PASSWORD=$(cat "$USER_PATH")
+
 service mariadb start
 
 mysql <<EOF
