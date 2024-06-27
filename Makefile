@@ -2,7 +2,7 @@ COMPOSE_FILE := srcs/docker-compose.yml
 SECRETS_DIR := secrets
 
 all: $(SECRETS_DIR) generate_passwords
-	@docker compose -f $(COMPOSE_FILE) up -d
+	@docker compose -f $(COMPOSE_FILE) up -d --build
 
 build: $(SECRETS_DIR) generate_passwords
 	@docker compose -f $(COMPOSE_FILE) build
