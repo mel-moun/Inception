@@ -12,8 +12,6 @@ RUN openssl genrsa -out /etc/nginx/ssl/mery.key 2048 \
 
 COPY conf/nginx.conf /etc/nginx/conf.d
 
-RUN mkdir -p /var/run/nginx
-
 EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
