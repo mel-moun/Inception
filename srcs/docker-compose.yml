@@ -77,7 +77,6 @@ services:
     env_file: .env
     ports:
       - "8081:80"
-    # change it later to 80:80
 
 volumes:
   mariadb_volume:
